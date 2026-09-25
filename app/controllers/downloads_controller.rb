@@ -31,13 +31,11 @@ class DownloadsController < ApplicationController
 
   private
 
-  def download_file_path
-    # File is served from public/bundles — outside the volume-mounted
-    # storage/ path, so it survives deploys and is reachable in the
-    # running container. Still only accessible via a valid token
-    # through this controller (not exposed as a linkable public asset).
-    Rails.root.join('public', 'bundles', 'ultimate-creator-bundle.zip')
-  end
+ def download_file_path
+  # Private, non-public directory — not served by the web server directly,
+  # and outside storage/ so it isn't overwritten by the Docker volume mount.
+  Rails.root.join('app', 'private_downloads', 'ultimate-creator-bundle.zip')
+end
 
   def render_error(message)
     render plain: message, status: :not_found
