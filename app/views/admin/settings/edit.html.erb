@@ -1,0 +1,28 @@
+<div class="card">
+  <h2>Site settings</h2>
+  <%= form_with url: admin_settings_path, method: :patch do %>
+    <% SiteSetting::FIELDS.each do |group, fields| %>
+      <h3><%= group %></h3>
+      <% fields.each do |k, l, t, o| %>
+        <label><%= l %>
+          <% if t == :area %><%= text_area_tag "s[#{k}]", @s[k], rows: 3 %>
+          <% elsif t == :color %><%= color_field_tag "s[#{k}]", @s[k] %>
+          <% elsif t == :select %><%= select_tag "s[#{k}]", options_for_select(o, @s[k]) %>
+          <% else %><%= text_field_tag "s[#{k}]", @s[k] %><% end %>
+        </label>
+      <% end %>
+    <% end %>
+    <p style="margin-top:1.2rem"><%= submit_tag 'Save changes' %></p>
+  <% end %>
+  <%= button_to 'Reset settings to defaults', admin_settings_path, method: :delete, class: 'b red', form: { onsubmit: "return confirm('Reset all settings?')" } %>
+  <div class="card">
+  <h2>Export / import</h2>
+  <p><%= link_to 'Export as JSON', export_admin_settings_path, class: 'btn' %></p>
+  <%= form_with url: import_admin_settings_path, method: :post, multipart: true do %>
+    <label for="file">Import JSON file</label>
+    <input type="file" id="file" name="file" accept="application/json" required>
+    <p><%= submit_tag 'Import JSON', class: 'b alt' %></p>
+  <% end %>
+  <p style="font-size:12px;color:#6b7280">Importing replaces the matching text, colors, and lists (features, plan items, steps, FAQ, trust strip, footer links). Fields this app doesn't use yet — like "bundles" or "categories" in your FestiveCrafts file — are ignored. The admin password lives in an environment variable, not the database, so import can't change it.</p>
+</div>
+</div>

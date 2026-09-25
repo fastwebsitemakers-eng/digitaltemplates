@@ -1,0 +1,80 @@
+<header><div class="wrap">
+  <a class="logo" href="#top"><%= @s['name1'] %><i><%= @s['name2'] %></i></a>
+  <nav><a href="#features">Features</a><a href="#plan">Pricing</a><a href="#faq">FAQ</a><button class="btn sm" data-open><%= @s['plan_cta'] %></button></nav>
+</div></header>
+
+<main id="top">
+<section class="hero"><div class="wrap">
+  <div>
+    <h1><%= @s['hero_headline'] %></h1>
+    <p class="lede"><%= @s['hero_lede'] %></p>
+    <div class="actions"><button class="btn" data-open><%= @s['hero_btn1'] %></button><a class="btn ghost" href="#features"><%= @s['hero_btn2'] %></a></div>
+  </div>
+  <div class="price-block">
+    <div class="big"><sup><%= @s['plan_currency'] %></sup><%= @s['plan_price'] %></div>
+    <p><%= @s['hero_note'] %></p>
+    <small><%= @s['hero_small'] %></small>
+  </div>
+</div></section>
+
+<div class="strip"><div class="wrap"><ul><% list('strip').each do |i| %><li><%= i.title %></li><% end %></ul></div></div>
+
+<section class="block" id="features"><div class="wrap">
+  <h2><%= @s['features_heading'] %></h2>
+  <div class="feat-grid"><% list('feature').each do |i| %><div class="feat"><h3><%= i.title %></h3><p><%= i.body %></p></div><% end %></div>
+</div></section>
+
+<section class="block plan" id="plan"><div class="wrap">
+  <div><h2><%= @s['plan_heading'] %></h2><p class="lede" style="margin-top:1.25rem"><%= @s['plan_lede'] %></p></div>
+  <div class="ticket">
+    <h3 style="font-size:1.3rem;margin-bottom:.5rem"><%= @s['plan_name'] %></h3>
+    <div class="amt"><%= @s['plan_currency'] %><%= @s['plan_price'] %><span> <%= @s['plan_period'] %></span></div>
+    <ul><% list('plan_item').each do |i| %><li><%= i.title %></li><% end %></ul>
+    <button class="btn" data-open><%= @s['plan_cta'] %></button>
+    <p class="fine"><%= @s['plan_fine'] %></p>
+  </div>
+</div></section>
+
+<section class="block"><div class="wrap">
+  <h2><%= @s['steps_heading'] %></h2>
+  <ol class="steps"><% list('step').each do |i| %><li><h3><%= i.title %></h3><p><%= i.body %></p></li><% end %></ol>
+</div></section>
+
+<section class="block faq" id="faq"><div class="wrap">
+  <h2><%= @s['faq_heading'] %></h2>
+  <div><% list('faq').each do |i| %><details><summary><%= i.title %></summary><p><%= i.body %></p></details><% end %></div>
+</div></section>
+
+<section class="block final"><div class="wrap">
+  <h2><%= @s['cta_heading'] %></h2>
+  <button class="btn" data-open><%= @s['cta_btn'] %></button>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <span><%= @s['footer_copy'] %></span>
+  <nav><% list('footer_link').each do |i| %><a href="<%= i.body %>"><%= i.title %></a><% end %><%= link_to 'Admin', admin_root_path %></nav>
+</div></footer>
+
+<dialog id="checkout" aria-labelledby="ct">
+  <button class="close" aria-label="Close" data-close>&times;</button>
+  <h2 id="ct"><%= @s['co_title'] %></h2>
+  <p class="sub"><%= @s['co_sub'] %></p>
+  <form id="pay">
+    <div class="field"><label for="name">Full name</label><input id="name" autocomplete="name" required></div>
+    <div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="email" required></div>
+    <div class="field"><label for="phone">Phone number</label><input id="phone" type="tel" autocomplete="tel" required></div>
+    <div class="field"><label>Card details</label>
+      <div id="card-element" style="padding:.75rem .9rem;border:1.5px dashed var(--line);border-radius:10px;color:var(--muted);font-size:.95rem">Stripe card field mounts here</div></div>
+    <button class="btn" style="width:100%;margin-top:.5rem"><%= @s['co_submit'] %></button>
+  </form>
+  <div class="done"><h2><%= @s['co_done_title'] %></h2><p class="lede" style="margin-top:.6rem"><%= @s['co_done_text'] %></p></div>
+</dialog>
+
+<script>
+const dlg=document.getElementById('checkout');
+document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>{dlg.classList.remove('ok');dlg.showModal()}));
+dlg.querySelector('[data-close]').addEventListener('click',()=>dlg.close());
+dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
+document.getElementById('pay').addEventListener('submit',e=>{e.preventDefault();/* Production: create a Stripe PaymentMethod and POST it to a Rails controller. */dlg.classList.add('ok');e.target.reset()});
+</script>

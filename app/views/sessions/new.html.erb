@@ -1,0 +1,7 @@
+<div class="card" style="max-width:360px;margin:3rem auto">
+  <h2>Admin login</h2>
+  <%= form_with url: login_path do %>
+    <label for="password">Password</label><%= password_field_tag :password, nil, autofocus: true %>
+    <p><%= submit_tag 'Log in' %></p>
+  <% end %>
+</div>

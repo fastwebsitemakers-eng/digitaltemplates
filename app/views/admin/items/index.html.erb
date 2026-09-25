@@ -1,0 +1,21 @@
+<div class="card">
+  <h2><%= ContentItem::KINDS[@kind][:label] %><span class="count"><%= @items.size %></span></h2>
+  <p class="sub">Reorder with the arrows, or edit and delete each item.</p>
+
+  <% @items.each_with_index do |i, n| %>
+    <div class="item">
+      <div class="item-main">
+        <b><%= i.title.presence || '(empty)' %></b>
+        <% if i.body.present? %><span class="muted"><%= truncate(i.body, length: 90) %></span><% end %>
+      </div>
+      <div class="item-actions">
+        <%= button_to '↑', move_admin_item_path(i, dir: 'up'), method: :patch, class: 'icon', title: 'Move up' %>
+        <%= button_to '↓', move_admin_item_path(i, dir: 'down'), method: :patch, class: 'icon', title: 'Move down' %>
+        <%= link_to 'Edit', edit_admin_item_path(i), class: 'btn alt sm' %>
+        <%= button_to 'Delete', admin_item_path(i), method: :delete, class: 'btn red sm', form: { onsubmit: "return confirm('Delete this item?')" } %>
+      </div>
+    </div>
+  <% end %>
+
+  <%= link_to "+ Add #{ContentItem::KINDS[@kind][:label].singularize.downcase}", new_admin_item_path(kind: @kind), class: 'btn block', style: 'margin-top:.8rem' %>
+</div>
