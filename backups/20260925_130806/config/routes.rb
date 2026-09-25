@@ -13,15 +13,4 @@ Rails.application.routes.draw do
       patch :move, on: :member
     end
   end
-  
-  
-  # Stripe checkout and webhooks
-  resources :checkouts, only: [:create]
-  get '/test-checkout', to: 'checkouts#create'
-  get '/checkout/success', to: 'checkouts#success', as: :success_checkout
-  
-  post '/webhooks/stripe', to: 'webhooks#stripe'
-  
-  # Secure downloads
-  get '/downloads/:token', to: 'downloads#show', as: :download
 end

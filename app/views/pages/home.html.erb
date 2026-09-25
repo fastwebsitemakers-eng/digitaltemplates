@@ -60,14 +60,27 @@
   <button class="close" aria-label="Close" data-close>&times;</button>
   <h2 id="ct"><%= @s['co_title'] %></h2>
   <p class="sub"><%= @s['co_sub'] %></p>
-  <form id="pay">
-    <div class="field"><label for="name">Full name</label><input id="name" autocomplete="name" required></div>
-    <div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="email" required></div>
-    <div class="field"><label for="phone">Phone number</label><input id="phone" type="tel" autocomplete="tel" required></div>
-    <div class="field"><label>Card details</label>
-      <div id="card-element" style="padding:.75rem .9rem;border:1.5px dashed var(--line);border-radius:10px;color:var(--muted);font-size:.95rem">Stripe card field mounts here</div></div>
-    <button class="btn" style="width:100%;margin-top:.5rem"><%= @s['co_submit'] %></button>
-  </form>
+
+  <%# Real submit: posts to checkouts#create, which should create the
+      Stripe Checkout Session and redirect the browser to Stripe's
+      hosted payment page. No Stripe.js/Elements needed here since
+      card entry happens on Stripe's own page. %>
+  <%= form_with url: checkouts_path, method: :post, local: true, id: "pay" do |f| %>
+    <div class="field">
+      <%= f.label :name, "Full name" %>
+      <%= f.text_field :name, id: "name", autocomplete: "name", required: true %>
+    </div>
+    <div class="field">
+      <%= f.label :email, "Email" %>
+      <%= f.email_field :email, id: "email", autocomplete: "email", required: true %>
+    </div>
+    <div class="field">
+      <%= f.label :phone, "Phone number" %>
+      <%= f.telephone_field :phone, id: "phone", autocomplete: "tel", required: true %>
+    </div>
+    <%= f.submit @s['co_submit'], class: "btn", style: "width:100%;margin-top:.5rem" %>
+  <% end %>
+
   <div class="done"><h2><%= @s['co_done_title'] %></h2><p class="lede" style="margin-top:.6rem"><%= @s['co_done_text'] %></p></div>
 </dialog>
 
@@ -76,5 +89,10 @@ const dlg=document.getElementById('checkout');
 document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>{dlg.classList.remove('ok');dlg.showModal()}));
 dlg.querySelector('[data-close]').addEventListener('click',()=>dlg.close());
 dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
-document.getElementById('pay').addEventListener('submit',e=>{e.preventDefault();/* Production: create a Stripe PaymentMethod and POST it to a Rails controller. */dlg.classList.add('ok');e.target.reset()});
+// No submit handler here anymore — the form now really POSTs to
+// checkouts_path. Rails creates the Stripe Checkout Session and
+// returns a redirect, so the browser navigates to Stripe automatically.
+// The ".done" panel above is unused now that Stripe's hosted page (and
+// your existing success/download flow) handles the "it worked" state —
+// remove it once you confirm you don't need an in-page fallback.
 </script>

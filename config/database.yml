@@ -1,5 +1,20 @@
 # Store production database in the storage/ directory, which by default
 # is mounted as a persistent Docker volume in config/deploy.yml.
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: simplemobile_development
+
+test:
+  <<: *default
+  database: simplemobile_test
+
+# Keep all your existing production: section below...
+
 production:
   primary:
     adapter: postgresql

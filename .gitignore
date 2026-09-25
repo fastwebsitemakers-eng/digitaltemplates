@@ -34,3 +34,7 @@
 /config/*.key
 
 .env
+
+# Environment variables and downloads (added by TemplateBar installer)
+.env.local
+storage/downloads/*.zip
