@@ -1,63 +1,144 @@
 <div class="success-container">
   <div class="success-card">
+    <!-- Back to Home Link -->
+    <a href="<%= root_path %>" class="back-home">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 13L5 8L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to TemplateBar
+    </a>
+
     <div class="success-icon">
       <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="40" cy="40" r="38" fill="url(#success-gradient)" />
-        <path class="checkmark" d="M24 41 L35 52 L57 29" fill="none" stroke="var(--accent-ink)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+        <circle cx="40" cy="40" r="38" fill="url(#success-gradient)" opacity="0.15" />
+        <circle cx="40" cy="40" r="34" fill="url(#success-gradient)" />
+        <path class="checkmark" d="M24 41 L35 52 L57 29" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
         <defs>
           <linearGradient id="success-gradient" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="var(--accent)" />
-            <stop offset="100%" stop-color="var(--pop)" />
+            <stop offset="0%" stop-color="#10b981" />
+            <stop offset="100%" stop-color="#059669" />
           </linearGradient>
         </defs>
       </svg>
     </div>
 
     <h1>You're All Set!</h1>
-    <p class="lede">Your Ultimate Creator Bundle is ready.</p>
+    <p class="lede">Your Ultimate Creator Bundle is ready to download</p>
 
     <% if @purchase %>
-      <div class="download-block">
-        <a href="<%= download_path(token: @purchase.token) %>" class="download-button">
-          Download Your Templates
-        </a>
-      </div>
+      <div class="download-section">
+        <div class="download-block">
+          <a href="<%= download_path(token: @purchase.token) %>" class="download-button">
+            <svg class="download-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 3V13M10 13L14 9M10 13L6 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M3 15V16C3 16.5304 3.21071 17.0391 3.58579 17.4142C3.96086 17.7893 4.46957 18 5 18H15C15.5304 18 16.0391 17.7893 16.4142 17.4142C16.7893 17.0391 17 16.5304 17 16V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Download Your 300+ Templates
+          </a>
+          <p class="file-info">Ultimate Creator Bundle • ZIP File</p>
+        </div>
 
-      <p class="email-note">
-        A copy of your download link has also been sent to:<br>
-        <strong><%= @purchase.email %></strong>
-      </p>
+        <div class="what-included">
+          <h3>What's included:</h3>
+          <div class="features-grid">
+            <div class="feature">
+              <div class="feature-icon">📱</div>
+              <span>Instagram & TikTok Templates</span>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">🎨</div>
+              <span>Fully Customizable Designs</span>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">⚡</div>
+              <span>Ready to Use</span>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">📄</div>
+              <span>Commercial License</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="email-confirmation">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 4H17C17.55 4 18 4.45 18 5V15C18 15.55 17.55 16 17 16H3C2.45 16 2 15.55 2 15V5C2 4.45 2.45 4 3 4Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M18 5L10 11L2 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div>
+            <p class="email-label">Confirmation sent to:</p>
+            <p class="email-address"><%= @purchase.email %></p>
+          </div>
+        </div>
+      </div>
     <% else %>
+      <!-- Auto-refresh every 3 seconds if purchase not found yet -->
+      <meta http-equiv="refresh" content="3">
+      
       <div class="processing-note">
-        <p>Your purchase is being processed. You'll receive an email with your download link shortly.</p>
+        <div class="spinner"></div>
+        <h3>Processing your purchase...</h3>
+        <p>Your payment was successful! We're generating your download link now.</p>
+        <p class="refresh-note">This page will refresh automatically.</p>
       </div>
     <% end %>
 
     <div class="support-footer">
-      <p>Need help? Contact us at <a href="mailto:support@templatebar.com">support@templatebar.com</a></p>
+      <p>Need help? Email us at <a href="mailto:support@templatebar.com">support@templatebar.com</a></p>
     </div>
   </div>
 </div>
 
 <style>
   .success-container {
-    max-width: 600px;
-    margin: 60px auto;
+    max-width: 640px;
+    margin: 40px auto 80px;
     padding: 0 20px;
   }
 
   .success-card {
-    background: var(--surface);
-    border: 1px solid var(--line);
+    background: var(--surface, #ffffff);
+    border: 1px solid var(--line, #e5e7eb);
     border-radius: var(--radius, 16px);
-    padding: 48px 36px;
+    padding: 48px 40px;
     text-align: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    position: relative;
   }
 
+  /* Back to Home Link */
+  .back-home {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted, #6b7280);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .back-home:hover {
+    color: var(--ink, #111827);
+  }
+
+  .back-home svg {
+    transition: transform 0.2s ease;
+  }
+
+  .back-home:hover svg {
+    transform: translateX(-2px);
+  }
+
+  /* Success Icon */
   .success-icon {
-    width: 72px;
-    height: 72px;
-    margin: 0 auto 24px;
+    width: 80px;
+    height: 80px;
+    margin: 20px auto 28px;
   }
 
   .success-icon svg {
@@ -67,99 +148,299 @@
   }
 
   .success-icon .checkmark {
-    stroke-dasharray: 40;
-    stroke-dashoffset: 40;
-    animation: draw-check 0.5s ease 0.15s forwards;
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+    animation: draw-check 0.6s cubic-bezier(0.65, 0, 0.35, 1) 0.2s forwards;
   }
 
   @keyframes draw-check {
     to { stroke-dashoffset: 0; }
   }
 
+  /* Heading */
   .success-card h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 32px;
+    font-family: 'Space Grotesk', -apple-system, sans-serif;
+    font-size: 36px;
     font-weight: 700;
-    color: var(--ink);
-    margin: 0 0 10px;
+    color: var(--ink, #111827);
+    margin: 0 0 12px;
+    line-height: 1.2;
   }
 
   .success-card .lede {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', -apple-system, sans-serif;
     font-size: 18px;
-    color: var(--muted);
-    margin: 0 0 30px;
-  }
-
-  .download-block {
-    margin: 30px 0;
-  }
-
-  .download-button {
-    display: inline-block;
-    background: linear-gradient(135deg, var(--accent) 0%, var(--pop) 100%);
-    color: var(--accent-ink);
-    text-decoration: none;
-    padding: 15px 40px;
-    border-radius: calc(var(--radius, 16px) * 0.4);
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 18px;
-    transition: opacity 0.15s ease, transform 0.15s ease;
-  }
-
-  .download-button:hover {
-    opacity: 0.92;
-    transform: translateY(-1px);
-  }
-
-  .email-note {
-    font-family: 'Inter', sans-serif;
-    color: var(--muted);
-    font-size: 15px;
-    margin-top: 28px;
-    line-height: 1.6;
-  }
-
-  .email-note strong {
-    color: var(--ink);
-  }
-
-  .processing-note {
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: calc(var(--radius, 16px) * 0.5);
-    padding: 20px;
-    margin: 24px 0;
-  }
-
-  .processing-note p {
-    font-family: 'Inter', sans-serif;
-    color: var(--muted);
-    font-size: 15px;
-    margin: 0;
+    color: var(--muted, #6b7280);
+    margin: 0 0 40px;
     line-height: 1.5;
   }
 
+  /* Download Section */
+  .download-section {
+    margin-bottom: 40px;
+  }
+
+  .download-block {
+    margin-bottom: 32px;
+  }
+
+  /* GREEN Download Button - Prominent */
+  .download-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    text-decoration: none;
+    padding: 18px 40px;
+    border-radius: calc(var(--radius, 16px) * 0.5);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    transition: all 0.2s ease;
+    box-shadow: 
+      0 4px 14px 0 rgba(16, 185, 129, 0.25),
+      0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .download-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .download-button:hover::before {
+    opacity: 1;
+  }
+
+  .download-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 6px 20px 0 rgba(16, 185, 129, 0.35),
+      0 2px 4px 0 rgba(0, 0, 0, 0.12);
+  }
+
+  .download-button:active {
+    transform: translateY(0);
+  }
+
+  .download-button svg,
+  .download-button span {
+    position: relative;
+    z-index: 1;
+  }
+
+  .download-icon {
+    animation: bounce 2s infinite;
+  }
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-4px); }
+    60% { transform: translateY(-2px); }
+  }
+
+  .file-info {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 13px;
+    color: var(--muted, #9ca3af);
+    margin: 12px 0 0;
+  }
+
+  /* What's Included Section */
+  .what-included {
+    background: var(--bg, #f9fafb);
+    border: 1px solid var(--line, #e5e7eb);
+    border-radius: calc(var(--radius, 16px) * 0.625);
+    padding: 24px;
+    margin-bottom: 28px;
+  }
+
+  .what-included h3 {
+    font-family: 'Space Grotesk', -apple-system, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink, #111827);
+    margin: 0 0 16px;
+    text-align: left;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: var(--surface, white);
+    border: 1px solid var(--line, #e5e7eb);
+    border-radius: calc(var(--radius, 16px) * 0.375);
+    text-align: left;
+    transition: all 0.2s ease;
+  }
+
+  .feature:hover {
+    border-color: #10b981;
+    transform: translateY(-1px);
+  }
+
+  .feature-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .feature span {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink, #374151);
+    line-height: 1.4;
+  }
+
+  /* Email Confirmation */
+  .email-confirmation {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--bg, #f0fdf4);
+    border: 1px solid #86efac;
+    border-radius: calc(var(--radius, 16px) * 0.5);
+    padding: 16px 20px;
+    text-align: left;
+  }
+
+  .email-confirmation svg {
+    color: #10b981;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .email-label {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 13px;
+    color: var(--muted, #6b7280);
+    margin: 0 0 4px;
+  }
+
+  .email-address {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink, #111827);
+    margin: 0;
+    word-break: break-word;
+  }
+
+  /* Processing State */
+  .processing-note {
+    background: var(--bg, #f9fafb);
+    border: 1px solid var(--line, #e5e7eb);
+    border-radius: calc(var(--radius, 16px) * 0.625);
+    padding: 40px 32px;
+    margin: 24px 0;
+  }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 20px;
+    border: 3px solid var(--line, #e5e7eb);
+    border-top-color: var(--accent, #667eea);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .processing-note h3 {
+    font-family: 'Space Grotesk', -apple-system, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink, #111827);
+    margin: 0 0 12px;
+  }
+
+  .processing-note p {
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--muted, #6b7280);
+    font-size: 15px;
+    margin: 0 0 8px;
+    line-height: 1.6;
+  }
+
+  .refresh-note {
+    font-size: 13px !important;
+    color: var(--muted, #9ca3af) !important;
+    font-style: italic;
+  }
+
+  /* Support Footer */
   .support-footer {
     margin-top: 36px;
     padding-top: 24px;
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--line, #e5e7eb);
   }
 
   .support-footer p {
-    font-family: 'Inter', sans-serif;
-    color: var(--muted);
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--muted, #6b7280);
     font-size: 14px;
     margin: 0;
   }
 
   .support-footer a {
-    color: var(--accent);
+    color: #10b981;
     text-decoration: none;
+    font-weight: 500;
   }
 
   .support-footer a:hover {
     text-decoration: underline;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 640px) {
+    .success-card {
+      padding: 40px 24px;
+    }
+
+    .back-home {
+      position: static;
+      display: inline-flex;
+      margin-bottom: 20px;
+    }
+
+    .success-card h1 {
+      font-size: 28px;
+    }
+
+    .success-card .lede {
+      font-size: 16px;
+    }
+
+    .download-button {
+      width: 100%;
+      font-size: 16px;
+      padding: 16px 32px;
+    }
+
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
