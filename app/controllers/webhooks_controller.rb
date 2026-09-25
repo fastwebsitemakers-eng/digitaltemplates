@@ -60,7 +60,7 @@ class WebhooksController < ApplicationController
     )
 
     # Send delivery email
-    TemplateMailer.delivery_email(purchase).deliver_later
+    TemplateMailer.delivery_email(purchase).deliver_now
 
     Rails.logger.info "Purchase #{purchase.id} created for #{customer_email}"
   rescue ActiveRecord::RecordInvalid => e
