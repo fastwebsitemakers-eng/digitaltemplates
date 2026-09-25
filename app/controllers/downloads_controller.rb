@@ -13,7 +13,7 @@ class DownloadsController < ApplicationController
     end
 
     file_path = download_file_path
-    
+
     unless File.exist?(file_path)
       render_error("Download file not found. Please contact support.")
       return
@@ -32,9 +32,11 @@ class DownloadsController < ApplicationController
   private
 
   def download_file_path
-    # SECURE: File is stored outside the public directory
-    # It can only be accessed through this controller with a valid token
-    Rails.root.join('storage', 'downloads', 'ultimate-creator-bundle.zip')
+    # File is served from public/bundles — outside the volume-mounted
+    # storage/ path, so it survives deploys and is reachable in the
+    # running container. Still only accessible via a valid token
+    # through this controller (not exposed as a linkable public asset).
+    Rails.root.join('public', 'bundles', 'ultimate-creator-bundle.zip')
   end
 
   def render_error(message)
