@@ -65,3 +65,4 @@ end
 group :production do
   gem "pg"
 end
+gem "resend", "~> 1.17"
