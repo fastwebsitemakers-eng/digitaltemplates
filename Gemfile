@@ -36,7 +36,7 @@ gem "image_processing", "~> 1.2"
 
 
 # Stripe payment processing
-gem "stripe", "~> 10.0"
+gem "stripe", "~> 19.6"
 
 group :development, :test do
 
